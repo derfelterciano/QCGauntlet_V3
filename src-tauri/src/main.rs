@@ -2,5 +2,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    qc_gauntlet_v3_lib::run()
+    qc_gauntlet_lib::run()
 }
