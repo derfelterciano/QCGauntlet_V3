@@ -40,3 +40,29 @@ Why use Tauri?
 - Cross-Platform: Build once, and it works seamlessly on Windows, macOS, and Linux.
 
 This approach avoids the need for external hosting or server-side infrastructure, ensuring that QC Gauntlet remains accessible and cost-effective while providing a robust tool for cytological profiling.
+
+---
+
+### User Config
+
+- Datasets:
+  - primary_ds: String
+  - secondary_ds: Optional string (should be able to handle 1 condition only)
+- Meta Information:
+  - compound name column
+  - well location column
+  - plate name column (this is a multiplate processor but should be able to handle single plates as well)
+- Threshold: float
+- Control Definitions:
+
+  - compound_type column: String (this tells us what is an experimental compound and what is control based)
+  - control_group: A list of control definitions that contains the following information:
+    - name, list of control wells
+
+- Dataset naming:
+  - done through using file name
+
+### TODO
+
+- [ ] Implement User Config/Input
+- [ ] Implement core CP Activity Score Calculations
