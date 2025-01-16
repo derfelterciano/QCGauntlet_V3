@@ -4,7 +4,7 @@ on:
   push:
     branches:
     paths:
-      - ./src-tauri/src/test/**
+      - src-tauri/src/test/**
 
 jobs:
   test:
