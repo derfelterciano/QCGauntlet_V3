@@ -1,8 +1,7 @@
-use std::error::Error;
-
-use polars::frame::DataFrame;
+use polars::prelude::*;
 use rayon::iter::{IntoParallelIterator, IntoParallelRefIterator, ParallelIterator};
 use serde::{Deserialize, Serialize};
+use std::error::Error;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct UserConfig {
@@ -25,7 +24,7 @@ pub struct ControlBlock {
     control_wells: Option<Vec<String>>,
 }
 
-pub fn calculate_scores(df: &DataFrame) -> Result<(), Box<dyn Error>> {
+pub fn calculate_scores(df: &DataFrame) -> Result<Series, Box<dyn Error>> {
     let scores: Vec<f64> = df
         .get_columns()
         .iter()
@@ -44,5 +43,5 @@ pub fn calculate_scores(df: &DataFrame) -> Result<(), Box<dyn Error>> {
         .into_par_iter()
         .map(|sum| sum.sqrt())
         .collect();
-    return Ok(());
+    return Ok(Series::new("Activity_Scores".into(), scores));
 }

@@ -1,0 +1,22 @@
+name: Rust CI workflow
+
+on:
+  push:
+
+jobs:
+  test:
+    name: cargo test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: Set up rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+
+      - name: cd src-tauri
+        run: cd src-tauri
+
+      - name: run tests
+        run: cargo test

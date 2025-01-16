@@ -1,5 +1,6 @@
 #![allow(unused_imports, dead_code)]
-mod core;
+pub mod core_func;
+mod tests;
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 #[tauri::command]
 fn greet(name: &str) -> String {
