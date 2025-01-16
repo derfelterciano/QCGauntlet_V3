@@ -3,8 +3,8 @@ name: Rust CI workflow
 on:
   push:
     branches:
-    paths:
-      - src-tauri/src/test/**
+    # paths:
+    #   - src-tauri/src/test/**
 
 jobs:
   test:
