@@ -64,7 +64,7 @@ mod calc_test {
 
         let result = calculate_scores(&df)?;
 
-        let expected = Series::new("score", vec![8.124038, 9.643651, 11.224972]);
+        let expected = Series::new("score".into(), vec![8.124038, 9.643651, 11.224972]);
         assert_eq!(round_series(&result, 6), round_series(&expected, 6));
 
         Ok(())
