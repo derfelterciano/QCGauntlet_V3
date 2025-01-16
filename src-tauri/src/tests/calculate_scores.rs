@@ -15,6 +15,7 @@ mod calc_test {
             .collect()
     }
 
+    // simple test
     #[test]
     fn test_row_wise_basic() -> Result<(), Box<dyn Error>> {
         // Create a sample DataFrame without an index column
