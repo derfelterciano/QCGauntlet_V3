@@ -34,20 +34,37 @@ mod calc_test {
 
         // Assert equality
         assert_eq!(round_series(&result, 6), round_series(&expected, 6));
-        // assert_eq!(
-        //     result
-        //         .f64()
-        //         .unwrap()
-        //         .into_iter()
-        //         .map(|x| x.unwrap_or(0.0))
-        //         .collect::<Vec<_>>(),
-        //     expected
-        //         .f64()
-        //         .unwrap()
-        //         .into_iter()
-        //         .map(|x| x.unwrap_or(0.0))
-        //         .collect::<Vec<_>>()
-        // );
+        Ok(())
+    }
+
+    #[test]
+    fn test_row_wise_with_negatives() -> Result<(), Box<dyn Error>> {
+        let df = df![
+            "feature1" => [-1.0, -2.0, -3.0],
+            "feature2" => [-4.0, -5.0, -6.0],
+            "feature3" => [-7.0, -8.0, -9.0],
+        ]?;
+
+        let result = calculate_scores(&df)?;
+
+        let expected = Series::new("score".into(), vec![8.124038, 9.643651, 11.224972]);
+        assert_eq!(round_series(&result, 6), round_series(&expected, 6));
+        Ok(())
+    }
+
+    #[test]
+    fn test_row_wise_mixed_values() -> Result<(), Box<dyn Error>> {
+        let df = df![
+            "feature1" => [1.0, -2.0, 3.0],
+            "feature2" => [-4.0, 5.0, -6.0],
+            "feature3" => [7.0, -8.0, 9.0],
+        ]?;
+
+        let result = calculate_scores(&df)?;
+
+        let expected = Series::new("score", vec![8.124038, 9.643651, 11.224972]);
+        assert_eq!(round_series(&result, 6), round_series(&expected, 6));
+
         Ok(())
     }
 }
