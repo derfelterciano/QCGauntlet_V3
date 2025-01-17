@@ -10,6 +10,9 @@ pub struct UserConfig {
     meta_cols: Option<Vec<String>>, // this is for uninformative meta
     threshold: f64,
     controls: Option<ControlDefinitions>,
+    compound_name_col: String,
+    well_location_col: String,
+    plate_name_col: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
