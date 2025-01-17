@@ -39,6 +39,7 @@ mod calc_test {
         Ok(())
     }
 
+    // with negatives
     #[test]
     fn test_row_wise_with_negatives() -> Result<(), Box<dyn Error>> {
         let df = df![
