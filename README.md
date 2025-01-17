@@ -64,5 +64,6 @@ This approach avoids the need for external hosting or server-side infrastructure
 
 ### TODO
 
-- [ ] Implement User Config/Input
-- [ ] Implement core CP Activity Score Calculations
+- [x] Implement User Config/Input
+- [x] Implement core CP Activity Score Calculations
+- [ ] Implement Scatter plot calculations/functionality
