@@ -3,13 +3,34 @@ use polars::prelude::*;
 use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 use std::error::Error;
 
+/// Creates Activity scores for given datasets
 pub fn get_activity_scores(
     primary_ds: DataFrame,
     secondary_ds: Option<DataFrame>,
     config: &UserConfig,
-    exclude_experimental: bool,
-) -> Result<(), Box<dyn Error>> {
-    return Ok(());
+) -> Result<(DataFrame, Option<DataFrame>), Box<dyn Error>> {
+    let mut meta_cols = vec![
+        config.compound_name_col.as_str(),
+        config.well_location_col.as_str(),
+        config.plate_name_col.as_str(),
+    ];
+    if let Some(meta) = &config.meta_cols {
+        meta_cols.extend(meta.iter().map(|x| x.as_str()).collect::<Vec<&str>>());
+    }
+
+    let (primary_ds_meta, primary_ds_feats) = parse_df(&primary_ds, &meta_cols)?;
+    let primary_scores = calculate_scores(&primary_ds_feats)?;
+    let primary_res = primary_ds_meta.hstack(&[primary_scores.into()])?;
+
+    if let Some(second_ds) = secondary_ds {
+        let (secondary_ds_meta, secondary_ds_feats) = parse_df(&second_ds, &meta_cols)?;
+        let secondary_scores = calculate_scores(&secondary_ds_feats)?;
+        let secondary_res = secondary_ds_meta.hstack(&[secondary_scores.into()])?;
+
+        return Ok((primary_res, Some(secondary_res)));
+    }
+
+    return Ok((primary_res, None));
 }
 
 /// Splits meta cols from feature df for calculations

@@ -5,26 +5,26 @@ use std::error::Error;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct UserConfig {
-    primary_ds: String,
-    secondary_ds: Option<String>,
-    meta_cols: Option<Vec<String>>, // this is for uninformative meta
-    threshold: f64,
-    controls: Option<ControlDefinitions>,
-    compound_name_col: String,
-    well_location_col: String,
-    plate_name_col: String,
+    pub primary_ds: String,
+    pub secondary_ds: Option<String>,
+    pub meta_cols: Option<Vec<String>>, // this is for uninformative meta
+    pub threshold: f64,
+    pub controls: Option<ControlDefinitions>,
+    pub compound_name_col: String,
+    pub well_location_col: String,
+    pub plate_name_col: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ControlDefinitions {
-    control_column: Option<String>,
-    control_blocks: Option<Vec<ControlBlock>>,
+    pub control_column: Option<String>,
+    pub control_blocks: Option<Vec<ControlBlock>>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ControlBlock {
-    name: String,
-    control_wells: Option<Vec<String>>,
+    pub name: String,
+    pub control_wells: Option<Vec<String>>,
 }
 
 pub fn calculate_scores(df: &DataFrame) -> Result<Series, Box<dyn Error>> {
