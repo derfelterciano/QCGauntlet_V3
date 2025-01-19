@@ -48,3 +48,9 @@ pub fn calculate_scores(df: &DataFrame) -> Result<Series, Box<dyn Error>> {
         .collect();
     return Ok(Series::new("Activity_Scores".into(), scores));
 }
+
+pub fn df_to_json(df: &DataFrame) -> Result<String, Box<dyn Error>> {
+    let json_str = serde_json::to_string(&df).unwrap();
+
+    return Ok(json_str);
+}

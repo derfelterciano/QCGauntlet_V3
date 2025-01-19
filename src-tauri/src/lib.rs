@@ -12,13 +12,13 @@ fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!", name)
 }
 
-#[tauri::command]
-pub fn process_activity_scores(config: UserConfig) -> Result<(String, String), String> {
-    let (primary_df, secondary_df) = read_ds(&config).unwrap();
-
-    let (primary_scores, secondary_scores) =
-        get_activity_scores(primary_df, secondary_df, &config).unwrap();
-}
+// #[tauri::command]
+// pub fn process_activity_scores(config: UserConfig) -> Result<(String, String), String> {
+//     let (primary_df, secondary_df) = read_ds(&config).unwrap();
+//
+//     let (primary_scores, secondary_scores) =
+//         get_activity_scores(primary_df, secondary_df, &config).unwrap();
+// }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {

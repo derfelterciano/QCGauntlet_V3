@@ -1,2 +1,3 @@
-pub mod activity_score_tests;
-pub mod calculate_scores;
+mod activity_score_tests;
+mod calculate_scores;
+mod utils_test;
