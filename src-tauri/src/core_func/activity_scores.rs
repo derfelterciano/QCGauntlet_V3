@@ -33,6 +33,28 @@ pub fn get_activity_scores(
     return Ok((primary_res, None));
 }
 
+// Reads the user config path and then returns the respective dataframes
+pub fn read_ds(config: &UserConfig) -> Result<(DataFrame, Option<DataFrame>), Box<dyn Error>> {
+    let primary_path = config.primary_ds.clone();
+    let primary_df = CsvReadOptions::default()
+        .with_has_header(true)
+        .try_into_reader_with_file_path(Some(primary_path.into()))?
+        .finish()?;
+
+    let sercondary_df = if let Some(secondary_path) = config.secondary_ds.clone() {
+        Some(
+            CsvReadOptions::default()
+                .with_has_header(true)
+                .try_into_reader_with_file_path(Some(secondary_path.into()))?
+                .finish()?,
+        )
+    } else {
+        None
+    };
+
+    return Ok((primary_df, sercondary_df));
+}
+
 /// Splits meta cols from feature df for calculations
 fn parse_df(df: &DataFrame, meta_cols: &[&str]) -> Result<(DataFrame, DataFrame), Box<dyn Error>> {
     // get metal columns
