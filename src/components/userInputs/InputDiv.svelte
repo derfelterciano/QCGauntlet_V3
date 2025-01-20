@@ -1,4 +1,6 @@
 <script lang="ts" context="module">
+  import { preventDefault } from "svelte/legacy";
+
 	// Define UserConfig type
 	export interface UserConfig {
 		primary_ds: string;
@@ -33,19 +35,35 @@
 	let assayLayout: boolean[] = Array(384).fill(false); // 384 well default make 96 wells an option later
 
 	// Handle file input
-	function handleFiles(event: Event, key: keyof UserConfig) {
+	function handleFiles(event: Event, key: keyof UserConfig): void {
 		const target = event.target as HTMLInputElement;
-		const file = target.files?.[0].text();
-		userConfig[key] = file;
+		const file = target.files?.[0];
+
+		if (file) {
+			const reader = new FileReader();
+			reader.onload = () => {
+				if (key === "primary_ds" || key === "secondary_ds") {
+        			userConfig[key] = reader.result as string; // Assign content
+      			}
+			};
+			reader.readAsText(file); // You can also use readAsArrayBuffer, etc.
+		}
+
+
 	}
 
 	// Update threshold
 	function updateThresh(value: string) {
 		userConfig.threshold = parseFloat(value);
 	}
+
+	function handleSubmit(event: SubmitEvent) {
+    	event.preventDefault(); // Explicitly prevent default behavior
+    	console.log("Form submitted:", userConfig);
+  	}
 </script>
 
-<div class="inputDiv">
+<form class="inputForm" on:submit={handleSubmit}>
 	<h3>User Configuration</h3>
 
 	<!-- File selection -->
@@ -58,10 +76,12 @@
 			/>
 		</label>
 	</div>
-</div>
+
+	<button type="submit">Save Configuration</button>
+</form>
 
 <style>
-	.inputDiv {
+	.inputForm {
 		padding: 1rem;
 		border: 1px solid #ccc;
 		border-radius: 8px;
