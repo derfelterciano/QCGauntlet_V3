@@ -1,4 +1,6 @@
 <script lang="ts" context="module">
+	import { open } from "@tauri-apps/plugin-dialog";
+
 	// Define UserConfig type
 	export interface UserConfig {
 		primary_ds: string;
@@ -33,20 +35,26 @@
 	let assayLayout: boolean[] = Array(384).fill(false); // 384 well default make 96 wells an option later
 
 	// Handle file input
-	function handleFiles(event: Event, key: keyof UserConfig): void {
-		const target = event.target as HTMLInputElement;
-		const file = target.files?.[0];
+	async function handleFiles(
+		key: "primary_ds" | "secondary_ds",
+	): Promise<void> {
+		const file = await open({
+			multiple: false,
+			directory: false,
+		});
 
-		if (file) {
-			const reader = new FileReader();
-			reader.onload = () => {
-				if (key === "primary_ds" || key === "secondary_ds") {
-					userConfig[key] = reader.result as string; // Assign content
-				}
-			};
-			reader.readAsText(file); // You can also use readAsArrayBuffer, etc.
+		if (file && typeof file === "string") {
+			userConfig[key] = file;
 		}
 	}
+	// function handleFiles(event: Event, key: keyof UserConfig): void {
+	// 	const target = event.target as HTMLInputElement;
+	// 	const file = target.files?.[0];
+	//
+	// 	if (file && (key === "primary_ds" || key === "secondary_ds")) {
+	// 		userConfig[key] = file.name;
+	// 	}
+	// }
 
 	// Update threshold
 	function updateThresh(value: string) {
@@ -64,21 +72,28 @@
 
 	<!-- File selection -->
 	<div class="file-selection">
-		<label>
+		<label class="block mb-2 text-md font-medium text-white">
 			Primary Dataset:
 			<input
+				class="block w-full mb-5 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 text-gray-400 focus:outline-none bg-gray-700 border-gray-600 placeholder-gray-400"
 				type="file"
-				on:change={(e) => handleFiles(e, "primary_ds")}
+				on:change={(e) => handleFiles("primary_ds")}
+				accept=".csv,.tsv,.txt"
 			/>
 		</label>
-		<label>
+
+		<label class="block mb-2 text-md font-medium text-white">
 			Secondary Dataset:
 			<input
+				class="block w-full mb-5 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 text-gray-400 focus:outline-none bg-gray-700 border-gray-600 placeholder-gray-400"
 				type="file"
-				on:change={(e) => handleFiles(e, "secondary_ds")}
+				on:change={(e) => handleFiles("secondary_ds")}
+				accept=".csv,.tsv,.txt"
 			/>
 		</label>
 	</div>
+
+	<div class="threshold"></div>
 
 	<button
 		class="flex justify-center m-[5px] bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 border border-green-700 rounded"
@@ -89,5 +104,9 @@
 <style>
 	.inputForm {
 		@apply rounded-lg border-white border-2 p-[2px] ml-2 bg-sky-900;
+	}
+
+	label {
+		display: block;
 	}
 </style>
