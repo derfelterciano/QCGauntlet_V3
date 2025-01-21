@@ -88,6 +88,6 @@
 
 <style>
 	.inputForm {
-		@apply rounded-lg border-black border-2 p-[2px] ml-2;
+		@apply rounded-lg border-white border-2 p-[2px] ml-2 bg-sky-900;
 	}
 </style>

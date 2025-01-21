@@ -21,6 +21,6 @@
 
 <style>
 	.container {
-		@apply font-sans;
+		@apply font-sans text-white;
 	}
 </style>
