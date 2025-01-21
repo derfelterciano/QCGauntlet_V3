@@ -1,6 +1,4 @@
 <script lang="ts" context="module">
-  import { preventDefault } from "svelte/legacy";
-
 	// Define UserConfig type
 	export interface UserConfig {
 		primary_ds: string;
@@ -43,13 +41,11 @@
 			const reader = new FileReader();
 			reader.onload = () => {
 				if (key === "primary_ds" || key === "secondary_ds") {
-        			userConfig[key] = reader.result as string; // Assign content
-      			}
+					userConfig[key] = reader.result as string; // Assign content
+				}
 			};
 			reader.readAsText(file); // You can also use readAsArrayBuffer, etc.
 		}
-
-
 	}
 
 	// Update threshold
@@ -58,13 +54,13 @@
 	}
 
 	function handleSubmit(event: SubmitEvent) {
-    	event.preventDefault(); // Explicitly prevent default behavior
-    	console.log("Form submitted:", userConfig);
-  	}
+		event.preventDefault(); // Explicitly prevent default behavior
+		console.log("Form submitted:", userConfig);
+	}
 </script>
 
 <form class="inputForm" on:submit={handleSubmit}>
-	<h3>User Configuration</h3>
+	<h3 class="flex justify-center">User Configuration</h3>
 
 	<!-- File selection -->
 	<div class="file-selection">
@@ -75,16 +71,23 @@
 				on:change={(e) => handleFiles(e, "primary_ds")}
 			/>
 		</label>
+		<label>
+			Secondary Dataset:
+			<input
+				type="file"
+				on:change={(e) => handleFiles(e, "secondary_ds")}
+			/>
+		</label>
 	</div>
 
-	<button type="submit">Save Configuration</button>
+	<button
+		class="flex justify-center m-[5px] bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 border border-green-700 rounded"
+		type="submit">Save Configuration</button
+	>
 </form>
 
 <style>
 	.inputForm {
-		padding: 1rem;
-		border: 1px solid #ccc;
-		border-radius: 8px;
-		background-color: #f9f9f9;
+		@apply rounded-lg border-black border-2 p-[2px] ml-2;
 	}
 </style>

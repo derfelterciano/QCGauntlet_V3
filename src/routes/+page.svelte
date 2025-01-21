@@ -4,14 +4,14 @@
 		type UserConfig,
 	} from "../components/userInputs/InputDiv.svelte";
 
-	// let name = $state("");
-	// let greetMsg = $state("");
+	let name = $state("");
+	let greetMsg = $state("");
 
-	// async function greet(event: Event) {
-	// 	event.preventDefault();
-	// 	// Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-	// 	greetMsg = await invoke("greet", { name });
-	// }
+	async function greet(event: Event) {
+		event.preventDefault();
+		// Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
+		greetMsg = await invoke("greet", { name });
+	}
 </script>
 
 <main class="container">
@@ -21,6 +21,6 @@
 
 <style>
 	.container {
-		font-family: "Times New Roman", Times, serif;
+		@apply font-sans;
 	}
 </style>
