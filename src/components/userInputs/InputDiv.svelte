@@ -56,7 +56,7 @@
 </script>
 
 <form class="inputForm" on:submit={handleSubmit}>
-	<h3 class="flex justify-center">User Configuration</h3>
+	<h3 class="flex justify-center font-bold text-lg">User Configuration</h3>
 
 	<!-- File selection -->
 	<div class="file-selection">
@@ -74,6 +74,40 @@
 		</label>
 	</div>
 
+	<!-- Meta information -->
+	<div class="meta-info">
+		<h5 class="flex justify-center font-bold text-sm">Meta Information</h5>
+
+		<!-- Essential Meta Information-->
+		<label class="block flex flex-col items-start my-2">
+			Compound Name Column:
+			<input
+				class="border-2 rounded text-black w-[250px]"
+				type="text"
+				bind:value={userConfig.compound_name_col}
+				placeholder="Enter Compound Column"
+			/>
+		</label>
+		<label class="block flex flex-col items-start my-2">
+			Well Location Column:
+			<input
+				class="border-2 rounded text-black w-[250px]"
+				type="text"
+				bind:value={userConfig.well_location_col}
+				placeholder="Enter Well Column"
+			/>
+		</label>
+		<label class="block flex flex-col items-start my-2">
+			Plate Name Column:
+			<input
+				class="border-2 rounded text-black w-[250px]"
+				type="text"
+				bind:value={userConfig.plate_name_col}
+				placeholder="Enter Plate Name Column"
+			/>
+		</label>
+	</div>
+
 	<div class="threshold"></div>
 
 	<button
@@ -84,7 +118,7 @@
 
 <style>
 	.inputForm {
-		@apply flex flex-col items-center rounded-lg border-white border-2 p-[2px] ml-2 bg-sky-900;
+		@apply flex flex-col items-center rounded-lg border-white border-2 p-[10px] ml-2 bg-sky-900;
 		flex-shrink: 0;
 		min-width: 500px;
 		width: 35%;
@@ -94,7 +128,13 @@
 		width: 100%;
 	}
 
-	label {
-		display: block;
+	.meta-info {
+		@apply flex flex-col items-center border-2 border-white rounded-md px-2 py-1 my-5;
+		width: 100%;
 	}
+
+	/* label { */
+	/* 	@apply flex flex-col items-start w-full; */
+	/* 	display: block; */
+	/* } */
 </style>
