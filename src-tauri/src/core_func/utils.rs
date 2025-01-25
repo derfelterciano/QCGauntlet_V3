@@ -1,7 +1,9 @@
 use polars::prelude::*;
 use rayon::iter::{IntoParallelIterator, IntoParallelRefIterator, ParallelIterator};
 use serde::{Deserialize, Serialize};
+use serde_json::json;
 use std::error::Error;
+use std::sync::Mutex;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct UserConfig {
@@ -50,7 +52,31 @@ pub fn calculate_scores(df: &DataFrame) -> Result<Series, Box<dyn Error>> {
 }
 
 pub fn df_to_json(df: &DataFrame) -> Result<String, Box<dyn Error>> {
-    let json_str = serde_json::to_string(&df).unwrap();
+    let col_names = df
+        .get_column_names()
+        .par_iter()
+        .map(|x| PlSmallStr::as_str(x))
+        .collect::<Vec<&str>>();
+
+    let json_rows: Mutex<Vec<serde_json::Value>> = Mutex::new(Vec::new());
+
+    (0..df.height()).into_par_iter().for_each(|i| {
+        let mut row_map = serde_json::Map::new();
+
+        for col in &col_names {
+            let raw_col = df.column(col).expect("col not found");
+            let val = raw_col.get(i).expect("cant retrieve value");
+
+            row_map.insert(col.to_string(), json!(val.to_string()));
+        }
+
+        let mut rows = json_rows.lock().unwrap();
+        rows.push(json!(row_map));
+    });
+
+    let json_str = serde_json::to_string_pretty(&*json_rows.lock().unwrap())?;
+
+    // let json_str = serde_json::to_string(&df).unwrap();
 
     return Ok(json_str);
 }

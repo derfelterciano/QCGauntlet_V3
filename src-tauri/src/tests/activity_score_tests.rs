@@ -1,7 +1,8 @@
 #[cfg(test)]
 mod as_tests {
-    use crate::core_func::activity_scores::*;
-    use crate::core_func::UserConfig;
+    use crate::core_func::*;
+    // use crate::core_func::activity_scores::*;
+    // use crate::core_func::UserConfig;
     use polars::prelude::*;
     use std::error::Error;
     use std::usize;

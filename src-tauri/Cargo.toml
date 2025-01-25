@@ -24,7 +24,7 @@ tauri = { version = "2", features = [] }
 tauri-plugin-opener = "2"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
-polars = {version = "0.45.1", features = ["serde"] }
+polars = {version = "^0.44.1", features = ["serde", "json"] }
 rayon = "1.10"
 tauri-plugin-dialog = "2"
 
