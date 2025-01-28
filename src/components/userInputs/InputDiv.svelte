@@ -1,27 +1,12 @@
-<script lang="ts" context="module">
+<script lang="ts">
 	// Define UserConfig type
 	import FilePrompt from "./FilePrompt.svelte";
 	import AddMeta from "./AddMeta.svelte";
-
-	export interface UserConfig {
-		primary_ds: string;
-		secondary_ds: string;
-		threshold: number;
-		controls: ControlDefinitions | null;
-		compound_name_col: string;
-		well_location_col: string;
-		plate_name_col: string;
-	}
-
-	export interface ControlDefinitions {
-		control_column: string;
-		control_blocks: ControlBlock[];
-	}
-
-	export interface ControlBlock {
-		name: string;
-		control_wells: string[];
-	}
+	import type {
+		UserConfig,
+		ControlDefinitions,
+		ControlBlock,
+	} from "../../types/types";
 
 	export let userConfig: UserConfig = {
 		primary_ds: "",

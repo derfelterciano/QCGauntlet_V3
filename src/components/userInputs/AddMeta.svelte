@@ -27,7 +27,7 @@
 				<input
 					class="border-2 rounded text-black p-2 flex-grow"
 					type="text"
-					bind:value={metaInfo}
+					value={metaInfo}
 					placeholder="Enter Meta Column"
 					on:input={(e) =>
 						onUpdateMetaInfo(
