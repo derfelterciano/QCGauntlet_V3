@@ -1,7 +1,7 @@
 <script lang="ts" context="module">
-	import { open } from "@tauri-apps/plugin-dialog";
 	// Define UserConfig type
 	import FilePrompt from "./FilePrompt.svelte";
+	import AddMeta from "./AddMeta.svelte";
 
 	export interface UserConfig {
 		primary_ds: string;
@@ -44,6 +44,21 @@
 		userConfig[key] = file;
 	}
 
+	let metaInfoList: string[] = [];
+	function handleAddMetaInfo(): void {
+		metaInfoList = [...metaInfoList, ""];
+	}
+
+	function handleUpdateMetaInfo(index: number, value: string): void {
+		metaInfoList = metaInfoList.map((item, i) =>
+			i === index ? value : item,
+		);
+	}
+
+	function handleRemoveMetaInfo(index: number): void {
+		metaInfoList = metaInfoList.filter((_, i) => i !== index);
+	}
+
 	// Update threshold
 	function updateThresh(value: string) {
 		userConfig.threshold = parseFloat(value);
@@ -52,6 +67,7 @@
 	function handleSubmit(event: SubmitEvent) {
 		event.preventDefault(); // Explicitly prevent default behavior
 		console.log("Form submitted:", userConfig);
+		console.log("yuh", metaInfoList);
 	}
 </script>
 
@@ -106,6 +122,14 @@
 				placeholder="Enter Plate Name Column"
 			/>
 		</label>
+
+		<!--Additional Meta Information-->
+		<AddMeta
+			addMetaInfoList={metaInfoList}
+			onAddMetaInfo={handleAddMetaInfo}
+			onRemoveMetaInfo={handleRemoveMetaInfo}
+			onUpdateMetaInfo={handleUpdateMetaInfo}
+		/>
 	</div>
 
 	<div class="threshold"></div>
