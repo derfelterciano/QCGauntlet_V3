@@ -1,3 +1,5 @@
+# **PROJECT ON HOLD (HISTDIFF DESKTOP APP MUST BE MADE FIRST)**
+
 # QCGauntlet_V3
 
 ## A Fast Desktop App for Cytological Profiling QC
